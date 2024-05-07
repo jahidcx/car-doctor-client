@@ -23,6 +23,11 @@ const NavBar = () => {
         <li><Link to='/service'>Service</Link></li>
         <li><Link to='/blog'>Blog</Link></li>
         <li><Link to='/contact'>Contact</Link></li>
+        {
+            user && <>
+            <li><Link to='/mybookings'>My Bookings</Link></li>
+            </>
+        }
     </>
     return (
         <div className="navbar bg-base-100 font-inter">
