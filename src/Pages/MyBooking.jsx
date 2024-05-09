@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 
 const MyBooking = () => {
@@ -9,13 +10,18 @@ const MyBooking = () => {
 
     useEffect(() => {
 
-        fetch(`http://localhost:5000/bookings?email=${user?.email}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setMybookings(data);
+        axios.get(`http://localhost:5000/bookings?email=${user?.email}`,{withCredentials:true})
+        .then(res=>{
+            setMybookings(res.data)
+        })
 
-            })
+        // fetch(`http://localhost:5000/bookings?email=${user?.email}`)
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         setMybookings(data);
+
+        //     })
     }, [user?.email])
 
     const handleDelete = id => {

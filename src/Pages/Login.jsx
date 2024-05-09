@@ -1,25 +1,39 @@
 import logIn from '../../../car-doctor-resources-main/assets/images/login/login.svg'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
 import { useContext } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
+import axios from 'axios';
 
 const Login = () => {
     const { login } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleLogin = e => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        // console.log(email, password);
 
-        login(email,password)
-        .then(result=>{
-            console.log(result.user);
-        })
-        .catch(error=>console.log(error))
+        login(email, password)
+            .then(result => {
+                console.log(result.user);
+                const newUser = { email }
+
+
+                // get access token
+                axios.post('http://localhost:5000/jwt', newUser, { withCredentials: true })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data) {
+                            navigate(location?.state ? location.state : '/') 
+                        }
+                    })
+            })
+            .catch(error => console.log(error))
     }
 
 
