@@ -2,12 +2,16 @@ import logIn from '../../../car-doctor-resources-main/assets/images/login/login.
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
-import { useContext } from 'react';
-import { AuthContext } from '../Provider/AuthProvider';
+// import { useContext } from 'react';
+// import { AuthContext } from '../Provider/AuthProvider';
 import axios from 'axios';
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
-    const { login } = useContext(AuthContext);
+    // const { login } = useContext(AuthContext);
+    
+    const {login} = useAuth(); // useAuth is a  custom hook 
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -26,12 +30,12 @@ const Login = () => {
 
                 // get access token
                 axios.post('http://localhost:5000/jwt', newUser, { withCredentials: true })
-                    .then(res => {
-                        console.log(res.data);
-                        if (res.data) {
-                            navigate(location?.state ? location.state : '/') 
-                        }
-                    })
+                    // .then(res => {
+                    //     console.log(res.data);
+                    //     if (res.data) {
+                    //         navigate(location?.state ? location.state : '/')
+                    //     }
+                    // })
             })
             .catch(error => console.log(error))
     }

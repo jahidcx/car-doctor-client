@@ -1,19 +1,32 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 import Swal from "sweetalert2";
-import axios from "axios";
+// import axios from "axios";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 
 const MyBooking = () => {
+    const axiosSecure = useAxiosSecure();
     const { user } = useContext(AuthContext);
     const [mybookings, setMybookings] = useState([]);
 
+    const url = `/bookings?email=${user?.email}`;
+
     useEffect(() => {
 
-        axios.get(`http://localhost:5000/bookings?email=${user?.email}`,{withCredentials:true})
+
+        // using custom hook 
+        axiosSecure.get(url)
         .then(res=>{
-            setMybookings(res.data)
+            setMybookings(res.data); 
         })
+
+
+        // axios.get(`http://localhost:5000/bookings?email=${user?.email}`,{withCredentials:true})
+        // .then(res=>{
+        //     setMybookings(res.data)
+        // })
+
 
         // fetch(`http://localhost:5000/bookings?email=${user?.email}`)
         //     .then(res => res.json())
